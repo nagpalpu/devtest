@@ -51,7 +51,7 @@ C1,1.22%
 C2,2.98%
 ```
 
-Image below (attached) will help you visualize how to calcualte spread to curve. The formula is:
+Image below (attached) will help you visualize how to calculate spread to curve. The formula is:
 
 ```
 C1.spread_to_curve = A - B
@@ -85,4 +85,4 @@ Remember, this is production level code. The aspects of your code we will judge 
 
 ## Submission
 
-Email us a zip file containing your solution. Alternatively, create a Github repo. If you decide to make the repo private, add @apotapov as a collaborator. 
+Email us a zip file containing your solution. Alternatively, create a Github repo. If you decide to make the repo private, add @overbondeng as a collaborator. 
