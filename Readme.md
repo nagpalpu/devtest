@@ -1,88 +1,79 @@
 # Coding Challenge
 
-Here are two exercises that will give us some insight into your coding and problem solving abilities. 
+##iles:
+
+- overbond_coding_challenge.py
+- sample_input.csv
+- tests.py
+
+##Technologies Used
+
+
+- Language: Python
+- Libraries: NumPy, SciPy, csv, os, math
 
 ## Challenge #1
 
-Calculate the yield spread (return) between a corporate bond and its government bond benchmark. 
+###Description
 
-A government bond is a good benchmark if it is as close as possible to the corporate bond in terms of years to maturity (term).
+Calculates the yield spread (return) between a corporate bond and its government bond benchmark. 
 
-### Sample input
+###Execution Steps
 
-| bond   | type       | term        | yield |
-|--------|------------|-------------|-------|
-| C1     | corporate  | 10.3 years  | 5.30% |
-| G1     | government | 9.4 years   | 3.70% |
-| G2     | government | 12 years    | 4.80% |
+Call yield_spread() with 2 parameters:
+- Param 1: pathname - this parameter stores the location of the csv file that contains data about the bonds
+- Param 2: bond_name - this parameter is the name of the corporate bond for which the yield spread is to be calculated
 
-### Sample output
+###Approach:
 
-```
-bond,benchmark,spread_to_benchmark
-C1,G1,1.60%
-```
-
-To explain, the best candidate for a benchmark for C1 (corporate bond) is the G1 (government bond) since their difference in term is only 0.9 years vs G2 that is 1.7 years away. Hence, the `spread_to_benchmark` for C1 is C1.yield - G1.yield = 1.60%.
-
-Given a list of corporate and government bonds, find a benchmark bond for each corporate bond and calculate the spread to benchmark.
+- Verify availability of file at given location
+- Call store_bonds function with pathname as an input parameter to store government and corporate bond data in 2 different lists (iteration time will be reduced by storing the bond data in separate lists) with numeric values of the fields - ‘term’ and ‘yield’ (for ease of arithmetic operations). 
+- Verify that at least one government bond exists for benchmarking
+- Verify that the corporate bond given as an input exists in the csv file
+- Find the benchmark government bond for this corporate bond by iterating through the list of government bonds to find the bond that has the minimum term difference with the corporate bond term. 
 
 ## Challenge #2
 
-The next challenge is calculate the spread to the government bond curve.
+###Description
 
-Since the corporate bond term is not exactly the same as its benchmark term, we need to use linear interpolation to dermine the spread to the curve.
+Calculate the spread to the government bond curve.
 
-### Sample input
+###Execution Steps:
 
-| bond   | type       | term        | yield |
-|--------|------------|-------------|-------|
-| C1     | corporate  | 10.3 years  | 5.30% |
-| C2     | corporate  | 15.2 years  | 8.30% |
-| G1     | government | 9.4 years   | 3.70% |
-| G2     | government | 12 years    | 4.80% |
-| G3     | government | 16.3 years  | 5.50% |
+Call calculate_spread() with 1 parameter:
+- Param 1: pathname - this parameter stores the location of the csv file that contains data about the bonds
 
-### Sample output
+###Approach:
 
-```
-bond,spread_to_curve
-C1,1.22%
-C2,2.98%
-```
+- Verify availability of file at given location
+- Call store_bonds function with pathname as an input parameter to store government and corporate bond data in 2 different lists with numeric values of the fields - ‘term’ and ‘yield’. 
+- Store the terms and yields of government bonds in 2 NumPy arrays to be given as x and y coordinates to the interp1d function in the SciPy library to build a linear interpolant function. 
+- Iterate through the corporate bonds to calculate the spread to the government bond curve by evaluating the interpolant function at the term of the corporate bond. It is assumed that the term of every corporate bond lies between 2 given government bond terms, so the interpolant function can be evaluated at the corporate bond term. 
 
-Image below (attached) will help you visualize how to calculate spread to curve. The formula is:
 
-```
-C1.spread_to_curve = A - B
-C2.spread_to_curve = X - Y
-```
+### Test Scenarios Covered
 
-Where `A = C1.yield = 5.30%` and `X = C2.yield = 8.30%`. Values of B and Y require linear interpolation to determine. We leave this as an exercise to the challenger.
+####Challenge 1:
 
-You can assume that the list of bonds will always contain at least one government bond with a term less all the corporate bonds. As well, it will contain at least one government bond with a term greater than all the corporate bonds. So that you will always be able to calculate `spread_to_curve` for each corporate bond.
+- File at specified pathname does not exist
+- The given corporate bond does not exist in the csv file
+- No government bond exists in the csv file
+- Only one government bond exists in the csv file
+- Government bonds with the same term, but different yields in the csv file
+- Only one corporate bond and one government bond exists
+- Multiple corporate and government bonds exist
+- No corporate bonds exist
 
-## Technical spec
+####Challenge 2:
 
-Use any language with which you are most comfortable. Overbond is a Rails shop, so if you can write the solution in Ruby, great! But it's not required.
+- File at specified pathname does not exist
+- Multiple corporate and government bonds exist
+- No corporate bonds exist
 
-No UI is necessary. You can read and write the output to standard in/out. Make sure it's easy to provide specific files for the application to process and calculate results for.
+###Trade-offs
 
-Please organize, design, test and document your code as if it were going into production. Write your README as if it was for a production service and include the following items:
+- Verify the format of the csv file
+- Verify the term and yield data is valid
+- For the second challenge, it is assumed that no two government bonds have the same term. If they were to have the same term, a different kind of interpolant function might be needed.
 
-* Reasoning behind your technical choices
-* Trade-offs you might have made or what you might do differently if you were to spend additional time on the project
 
-## How we review
-
-Remember, this is production level code. The aspects of your code we will judge include:
-
-* **Functionality**: Does the application do what was asked?
-* **Code quality**: Is the code simple and easy to understand?
-* **Testing**: Are there automated tests? Do they provide sufficient coverage?
-* **Technical choices**: Do choices of libraries, frameworks, etc. seem appropriate for the chosen application?
-* **Documentation**: Is a README file included? Does it specify how to execute the app? Does it describe your approach sufficiently?
-
-## Submission
-
-Email us a zip file containing your solution. Alternatively, create a Github repo. If you decide to make the repo private, add @overbondeng as a collaborator. 
