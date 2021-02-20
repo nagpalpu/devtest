@@ -51,7 +51,7 @@ Call calculate_spread() with 1 parameter:
 - Iterate through the corporate bonds to calculate the spread to the government bond curve by evaluating the interpolant function at the term of the corporate bond. It is assumed that the term of every corporate bond lies between 2 given government bond terms, so the interpolant function can be evaluated at the corporate bond term. 
 
 
-### Test Scenarios Covered
+## Test Scenarios Covered
 
 #### Challenge 1:
 
@@ -70,7 +70,7 @@ Call calculate_spread() with 1 parameter:
 - Multiple corporate and government bonds exist
 - No corporate bonds exist
 
-### Trade-offs
+## Trade-offs
 
 - Verify the format of the csv file
 - Verify the term and yield data is valid
